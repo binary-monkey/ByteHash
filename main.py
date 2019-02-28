@@ -2,7 +2,7 @@
 
 
 ENCODING = "ascii"
-LIM = 50
+LIM = 5000
 
 
 def prepare_slides(ps):
@@ -24,18 +24,24 @@ def prepare_slides(ps):
             index = min_scores.index(max(min_scores))
             index = i + 1 + index
 
+            # register used photo
+            p = photos[index]
+            used.append(p)
+
             before = photos[:i]
             pair = [photos[i], photos[index]]
             middle = photos[i + 1:index]
             after = photos[index + 1:]
 
             aux = before + pair + middle + after
-            # TODO: igual hace falta paso por valor list(photos)
-            photos = aux
 
-            # register used photo
-            p = photos[index]
-            used.append(p)
+            list_a = []
+
+            for x in aux:
+                if x not in list_a:
+                    list_a.append(x)
+            # TODO: igual hace falta paso por valor list(photos)
+            photos = list_a
 
     return photos
 
