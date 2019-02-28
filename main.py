@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 
+ENCODING = "ascii"
 LIM = 50
 
 
@@ -39,14 +40,19 @@ def prepare_slides(ps):
     return photos
 
 
-def write_result(slides, file):
-    with open(file, 'w') as w:
-        w.write(str(len(slides)) + '\n')
-        for slide in slides:
-            if slide[0] == 'V':
-                w.write(str(slide[1][0]) + ' ' + str(slide[1][1]) + '\n')
-            else:
-                w.write(str(slide[1]) + '\n')
+def format_result(slides):
+    result = ""
+    for slide in slides:
+        if slide[0] == 'H':
+            result += "{}\n".format(slide[1])
+        else:
+            result += "{} {}\n".format(slide[1][0], slide[1][1])
+    return result
+
+
+def write_result(formatted_result, filename):
+    with open(filename, 'wb') as f:
+        f.write(formatted_result.encode(ENCODING))
 
 
 def parse_input(file):
@@ -174,7 +180,8 @@ def test(file):
     slides = prepare_slides(photos_s)
 
     score = get_score(slides)
-    write_result(slides, file.replace("data/", "results/"))
+    formatted_result = format_result(slides)
+    write_result(formatted_result, file.replace("data/", "results/"))
 
     # for photo in photos_s:
     #     print(photo)
@@ -189,10 +196,10 @@ def test(file):
 def main():
     score = 0
     score += test("data/a_example.txt")
-    score += test("data/b_lovely_landscapes.txt")
+    # score += test("data/b_lovely_landscapes.txt")
     score += test("data/c_memorable_moments.txt")
-    score += test("data/d_pet_pictures.txt")
-    score += test("data/e_shiny_selfies.txt")
+    # score += test("data/d_pet_pictures.txt")
+    # score += test("data/e_shiny_selfies.txt")
 
     print("\nTotal Score: %i" % score)
 
