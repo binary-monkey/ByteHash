@@ -2,7 +2,7 @@
 
 
 ENCODING = "ascii"
-LIM = 5000
+LIM = 90000
 
 
 def prepare_slides(ps):
@@ -35,13 +35,13 @@ def prepare_slides(ps):
 
             aux = before + pair + middle + after
 
-            list_a = []
-
-            for x in aux:
-                if x not in list_a:
-                    list_a.append(x)
+            # list_a = []
+            #
+            # for x in aux:
+            #     if x not in list_a:
+            #         list_a.append(x)
             # TODO: igual hace falta paso por valor list(photos)
-            photos = list_a
+            photos = aux
 
     return photos
 
@@ -187,7 +187,7 @@ def test(file):
 
     score = get_score(slides)
     formatted_result = format_result(slides)
-    write_result(formatted_result, file.replace("data/", "results/"))
+    write_result(formatted_result, file.replace("data/", "results/1"))
 
     # for photo in photos_s:
     #     print(photo)
@@ -202,10 +202,10 @@ def test(file):
 def main():
     score = 0
     score += test("data/a_example.txt")
-    # score += test("data/b_lovely_landscapes.txt")
+    score += test("data/b_lovely_landscapes.txt")
     score += test("data/c_memorable_moments.txt")
-    # score += test("data/d_pet_pictures.txt")
-    # score += test("data/e_shiny_selfies.txt")
+    score += test("data/d_pet_pictures.txt")
+    score += test("data/e_shiny_selfies.txt")
 
     print("\nTotal Score: %i" % score)
 
