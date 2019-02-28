@@ -19,8 +19,6 @@ def prepare_slides(ps):
             except IndexError:
                 break
 
-        print(min_scores)
-
         if i < len(photos) - 1:
             index = min_scores.index(max(min_scores))
             index = i + 1 + index
@@ -41,8 +39,8 @@ def prepare_slides(ps):
     return photos
 
 
-def write_result(slides):
-    with open('result.out', 'w') as w:
+def write_result(slides, file):
+    with open(file, 'w') as w:
         w.write(str(len(slides)) + '\n')
         for slide in slides:
             if slide[0] == 'V':
@@ -161,20 +159,11 @@ def get_score(slides):
     return score
 
 
-def main():
-    # photos = parse_input("data/a_example.txt")
-    # photos = parse_input("data/c_memorable_moments.txt")
-    # photos = parse_input("data/d_pet_pictures.txt")
-    photos = parse_input("data/test")
+def test(file):
+    photos = parse_input(file)
 
     photos_h = photos[0]
     photos_v = photos[1]
-
-    # for photo in photos_h:
-    #     print(photo)
-    #
-    # print()
-    #
 
     paired_v = pair_v(photos_v)
 
@@ -182,12 +171,30 @@ def main():
 
     photos_s = sort_photos(photos)
 
-    for photo in photos_s:
-        print(photo)
+    slides = prepare_slides(photos_s)
 
-    print()
+    score = get_score(slides)
+    write_result(slides, file.replace("data/", "results/"))
 
-    print(get_score(prepare_slides(photos_s)))
+    # for photo in photos_s:
+    #     print(photo)
+    #
+    # print()
+
+    print("Score of %s: %i" % (file, score))
+
+    return score
+
+
+def main():
+    score = 0
+    score += test("data/a_example.txt")
+    score += test("data/b_lovely_landscapes.txt")
+    score += test("data/c_memorable_moments.txt")
+    score += test("data/d_pet_pictures.txt")
+    score += test("data/e_shiny_selfies.txt")
+
+    print("\nTotal Score: %i" % score)
 
 
 if __name__ == '__main__':
