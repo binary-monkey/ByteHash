@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 
-LIM = 10
+LIM = 50
 
 
-def prepare_slides(photos):
+def prepare_slides(ps):
+    photos = list(ps)
     used = []
     for i in range(len(photos)):
         min_scores = []
@@ -20,7 +21,7 @@ def prepare_slides(photos):
 
         print(min_scores)
 
-        if len(min_scores) is not None:
+        if i < len(photos) - 1:
             index = min_scores.index(max(min_scores))
             index = i + 1 + index
 
@@ -36,6 +37,8 @@ def prepare_slides(photos):
             # register used photo
             p = photos[index]
             used.append(p)
+
+    return photos
 
 
 def write_result(slides):
@@ -148,7 +151,7 @@ def common_tags(photo1, photo2):
 def get_score(slides):
     score = 0
 
-    for i in range(0, len(slides) + 1):
+    for i in range(0, len(slides)):
         try:
             score += min_score(slides[i], slides[i + 1])
 
